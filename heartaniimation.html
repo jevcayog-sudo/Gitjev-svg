@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Akii</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            /* Added: Fade in the whole container after 3 seconds */
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 3s;
+        }
+
+        .text-item {
+            position: absolute;
+            color: #ff85a2;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            text-shadow: 0 0 10px #ff0055;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        /* Initial 3-second wait then fade in */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(var(--x), var(--y)) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(calc(var(--x) * 1.1), calc(var(--y) * 1.1)) scale(1.1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-container" id="heart"></div>
+
+    <script>
+        const container = document.getElementById('heart');
+        const text = "I MISS HER";
+        const totalPoints = 60; 
+
+        for (let i = 0; i < totalPoints; i++) {
+            const span = document.createElement('div');
+            span.className = 'text-item';
+            span.innerText = text;
+
+            const t = (i / totalPoints) * 2 * Math.PI;
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+            span.style.setProperty('--x', (x * 10) + 'px');
+            span.style.setProperty('--y', (y * 10) + 'px');
+            
+            // Pulse delay starts AFTER the 3 second fade-in
+            span.style.animationDelay = (3 + (i * 0.05)) + 's';
+
+            container.appendChild(span);
+        }
+    </script>
+</body>
+</html>
